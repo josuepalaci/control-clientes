@@ -1,1 +1,101 @@
-<p>editar-cliente works!</p>
+<header id="main-header" class="py-2 bg-info text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1><i class="fa fa-user" aria-hidden="true"></i> Editar Usuario</h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<!-- formulario  -->
+<form #clienteForm="ngForm" (ngSubmit)="guardar(clienteForm)">
+  <flash-messages></flash-messages>
+
+  <!-- botones  -->
+
+  <section id="actions" class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <a routerLink="/" class="btn btn-light btn-block">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> Regresar al inicio
+          </a>
+        </div>
+        <div class="col-md-3">
+          <button type="submit" class="btn btn-success btn-block">
+            <i class="fa fa-check" aria-hidden="true"></i> Guardar cliente
+          </button>
+        </div>
+        <div class="col-md-3">
+          <a href="#" (click)="eliminar()" class="btn btn-danger btn-block">
+            <i class="fa fa-trash" aria-hidden="true"></i> Eliminar cliente
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="details">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-herader">
+              <h4>Editar Cliente</h4>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" name="nombre" class="form-control" required #nombre="ngModel"
+                  [(ngModel)]="cliente.nombre" minlength="2"
+                  [ngClass]="{'is-invalid': nombre.errors && nombre.touched}">
+                <div [hidden]="!nombre.errors?.required" class="invalid-feedback">
+                  Nombre requerido
+                </div>
+                <div [hidden]="!nombre.errors?.minlength" class="invalid-feedback">
+                  Debe contener almenos 2 caracteres
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="apellido">Apellido</label>
+                <input type="text" name="apellido" id="" class="form-control" required #apellido="ngModel"
+                  [(ngModel)]="cliente.apellido" minlength="2"
+                  [ngClass]="{'is-invalid': apellido.errors && apellido.touched}">
+                <div [hidden]="!apellido.errors?.required" class="invalid-feedback">
+                  Apellido requerido
+                </div>
+                <div [hidden]="!apellido.errors?.minlength" class="invalid-feedback">
+                  Debe contener almenos 2 caracteres
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="Email" id="" class="form-control" #email="ngModel" [(ngModel)]="cliente.email"
+                  minlength="2" [ngClass]="{'is-invalid': email.errors && email.touched}"
+                  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+                <div [hidden]="!email.errors?.required" class="invalid-feedback">
+                  Email requerido
+                </div>
+                <div [hidden]="!email.errors?.pattern" class="invalid-feedback">
+                  Email no es valido
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="saldo">Saldo</label>
+                <input type="number" name="saldo" id="" class="form-control" #saldo="ngModel"
+                  [(ngModel)]="cliente.saldo" [ngClass]="{'is-invalid': saldo.errors && saldo.touched}">
+                <div [hidden]="!saldo.errors?.required" class="invalid-feedback">
+                  Saldo requerido
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+</form>

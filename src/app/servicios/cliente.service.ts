@@ -12,25 +12,53 @@ export class ClienteServicio{
     clientes: Observable<Cliente[]>;
     cliente: Observable<Cliente>;
 
-    constructor(
-        private db: AngularFirestore
-    ){
-        this.clientesColeccion = db.collection('cliente', ref => ref.orderBy('nombre','asc'));
+    constructor(private db: AngularFirestore){
+        this.clientesColeccion = db.collection('clientes', ref => ref.orderBy('nombre','asc'));
     }
 
     getClientes(): Observable<Cliente[]>{
         //obteniendo clientes
-        this.clientes = this.clientesColeccion.snapshotChanges().pipe(
+        this.clientes = this.clientesColeccion.snapshotChanges()
+        .pipe(
             map( cambios => {
                 return cambios.map( accion => {
                     const datos = accion.payload.doc.data() as Cliente;
                     datos.id = accion.payload.doc.id;
-                    return datos;
-                })
+                    // console.log(accion.payload.doc.data());
+                        return datos;
+                    })
             })
         );
-        return this.clientes
+        return this.clientes;
     }
 
+    agregarCliente(cliente: Cliente){
+        this.clientesColeccion.add(cliente);
+    }
 
+    getCliente(id: string){
+        this.clienteDoc = this.db.doc<Cliente>(`clientes/${id}`);
+        this.cliente = this.clienteDoc.snapshotChanges().pipe(
+            map( action => {
+                if(action.payload.exists === false){
+                    return null;
+                } else {
+                    const datos = action.payload.data() as Cliente;
+                    datos.id = action.payload.id;
+                    return datos;
+                }
+            })
+        );
+        return this.cliente;
+    }
+
+    modificarCliente(cliente: Cliente){
+         this.clienteDoc = this.db.doc(`clientes/${cliente.id}`);
+         this.clienteDoc.update(cliente);
+    }
+
+    eliminarCliente(cliente: Cliente){
+        this.clienteDoc = this.db.doc(`clientes/${cliente.id}`);
+        this.clienteDoc.delete();
+    }
 }
