@@ -18,12 +18,13 @@
                             <a routerLink="/configuracion" class="dropdown-item"><i class="fa fa-cog"></i>  Configuracion</a>
                         </div>
                 </li>
-                <li *ngIf="!isloggedIn" class="nav-item">
+                <li *ngIf="!isloggedIn && permitirRegistro" class="nav-item">
                     <a routerLink="/login" class="nav-link" routerLinkActive="router-link-active">
                         <i class="fa fa-user" aria-hidden="true"> Login</i>
                     </a>
+                    
                 </li>
-                <li *ngIf="!isloggedIn" class="nav-item">
+                <li *ngIf="!isloggedIn && permitirRegistro" class="nav-item">
                     <a routerLink="/registrarse" class="nav-link" routerLinkActive="router-link-active">
                         <i class="fa fa-user" aria-hidden="true"> Registrarse</i>
                     </a>
